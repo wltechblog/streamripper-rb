@@ -1,0 +1,44 @@
+# Bundler
+*.gem
+*.rbc
+/.config
+/Gemfile.lock
+/pkg/
+*.bundle
+
+# Ruby
+*.so
+*.o
+*.a
+mkmf.log
+.ruby-version
+.ruby-gemset
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs and data
+*.log
+logs/
+streams/
+.env
+
+# Test coverage
+/coverage/
+/spec/reports/
+/_yardoc/
+/doc/
+
+# Temporary files
+/tmp/
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
+

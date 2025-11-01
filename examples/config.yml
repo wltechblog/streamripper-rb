@@ -1,0 +1,34 @@
+# Streamripper Configuration Example
+
+# Camera Configuration
+camera:
+  url: "rtsp://admin:password@192.168.1.100:554/stream"
+  timeout: 30
+
+# Capture Settings
+capture:
+  duration: 300  # seconds (0 = infinite)
+  max_packets: 0  # 0 = infinite
+  
+# Output Configuration
+output:
+  analysis_log: "logs/stream_analysis.json"
+  raw_stream: "streams/raw_stream.bin"
+  format: "json"  # json, csv, or both
+  
+# Logging
+logging:
+  verbose: false
+  log_level: "INFO"  # DEBUG, INFO, WARN, ERROR
+  
+# Analysis Options
+analysis:
+  track_timestamp_deviation: true
+  calculate_statistics: true
+  
+# Examples of different camera URLs:
+# Hikvision: rtsp://admin:password@192.168.1.100:554/Streaming/Channels/101
+# Dahua: rtsp://admin:password@192.168.1.100:554/stream/main
+# Axis: rtsp://admin:password@192.168.1.100:554/axis-media/media.amp
+# Generic: rtsp://192.168.1.100:554/stream
+
