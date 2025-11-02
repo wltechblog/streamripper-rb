@@ -10,14 +10,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <style>
     body {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
+      background: #1a1a2e;
+      /* linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+      min-height: 100vh
       padding: 20px;
       font-family: 'Anonymous Pro', monospace;
     }
 
     .main-container {
-      background: white;
+      background: #1a1a2e;
       border-radius: 0.75rem;
       box-shadow: 0 20px 60px rgba(0,0,0,0.3);
       overflow: hidden;
@@ -94,18 +95,16 @@
     .frame-type.audio { background: #1976d2; }
     .frame-type.unknown { background: #d32f2f; }
 
-
-
     .hex-dump {
-    background: #1e1e1e;
-    color: #00ff00;
-    font-family: 'Courier New', monospace;
-    font-size: 15px;
-    padding: 15px;
-    border-radius: 4px;
-    overflow-x: auto;
-    line-height: 1.6;
-    white-space: pre;
+      background: #1e1e1e;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
+      font-size: 15px;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+      line-height: 1.6;
+      white-space: pre;
     }
 
     #previousScans {
@@ -119,7 +118,11 @@
   <body>
     <div class="container-lg main-container pt-5">
       <div class="text-center">
-        <h1 class="display-3"><a href="/" class="text-decoration-none">🎬 StreamRipper</a></h1>
+        <h1 class="display-3">
+          <a href="/" class="text-decoration-none" title="🎬 StreamRipper">
+            <img src="logo.png" alt="StreamRipper Logo" class="img-fluid">
+          </a>
+        </h1>
         <p>Real-time RTSP Stream Analysis & Forensics</p>
       </div>
 
@@ -185,7 +188,7 @@
           </div>
 
           <div class="row g-3 mb-4">
-            <div class="col-md-6 col-lg-3">
+            <div class="col-sm-6 col-lg-3">
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Total Frames</h5>
@@ -193,7 +196,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-lg-3">
+            <div class="col-sm-6 col-lg-3">
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Total Packets</h5>
@@ -201,7 +204,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-lg-3">
+            <div class="col-sm-6 col-lg-3">
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Duration</h5>
@@ -209,7 +212,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6 col-lg-3">
+            <div class="col-sm-6 col-lg-3">
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title">Frame Rate</h5>
@@ -332,8 +335,8 @@
     const duration = parseInt(document.getElementById('duration').value);
 
     if (!rtspUrl) {
-    showError('Please enter an RTSP URL');
-    return;
+      showError('Please enter an RTSP URL');
+      return;
     }
 
     // Show capture modal using Bootstrap API
@@ -349,7 +352,7 @@
     const seconds = duration % 60;
     countdownDisplay.textContent = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
 
-    // Start countdown
+      // Start countdown
       let remainingTime = duration;
 
       countdownInterval = setInterval(() => {
@@ -805,9 +808,6 @@
       errorDiv.classList.remove('d-none');
     }
 
-    // Bootstrap modals handle backdrop clicks and ESC key automatically
-    // No need for custom event listeners
-
     // Load previous scans on page load
     document.addEventListener('DOMContentLoaded', function() {
       loadPreviousScans();
@@ -853,7 +853,7 @@
           <div class="card h-100 cursor-pointer" style="cursor: pointer; transition: transform 0.2s;">
             ${thumbnail}
             <div class="card-body">
-              <h6 class="card-title text-truncate">${scan.scan_id} (${scan.duration}s)</h6>
+              <h6 class="card-title small fw-bold text-truncate">${scan.scan_id} (${scan.duration}s)</h6>
               <p class="card-text small text-muted">${scan.packet_count} packets | ${scan.frame_count} frames</p>
             </div>
           </div>

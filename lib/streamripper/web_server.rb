@@ -170,6 +170,15 @@ module Streamripper
         else
           http_error(404, { error: 'File not found' }.to_json)
         end
+      when '/logo.png'
+        # Serve logo image
+        logo_path = File.join(File.dirname(__FILE__), 'logo.png')
+        if File.exist?(logo_path)
+          content = File.binread(logo_path)
+          http_response('image/png', content)
+        else
+          http_error(404, { error: 'Logo not found' }.to_json)
+        end
       else
         http_error(404, { error: 'Not found' }.to_json)
       end
