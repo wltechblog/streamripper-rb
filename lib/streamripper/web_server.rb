@@ -557,8 +557,9 @@ module Streamripper
 
         File.binwrite(temp_h264, h264_data)
 
-        # Use ffmpeg to convert H.264 to JPEG thumbnail
-        system("ffmpeg -i #{temp_h264} -vframes 1 -q:v 5 -y #{thumbnail_file} 2>/dev/null")
+        # Use ffmpeg to convert H.264 to JPEG thumbnail, resized to 250px wide
+        # -vf scale=250:-1 resizes to 250px width with proportional height
+        system("ffmpeg -i #{temp_h264} -vframes 1 -vf scale=250:-1 -q:v 5 -y #{thumbnail_file} 2>/dev/null")
 
         # Clean up temp file
         File.delete(temp_h264) if File.exist?(temp_h264)
