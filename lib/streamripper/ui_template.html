@@ -1150,52 +1150,6 @@
       }
     }
 
-    async function loadScansGallery() {
-      try {
-        const response = await fetch('/api/list-scans');
-        if (!response.ok) throw new Error('Failed to load scans');
-
-        const data = await response.json();
-        const scans = data.scans || [];
-
-        if (scans.length === 0) return;
-
-        const scansList = document.getElementById('scansList');
-        scansList.innerHTML = '';
-
-        scans.forEach(scan => {
-          const scanCard = document.createElement('div');
-          scanCard.style.cssText = 'border: 1px solid #ddd; border-radius: 8px; overflow: hidden; cursor: pointer; transition: transform 0.2s; background: #f5f5f5;';
-          scanCard.onmouseover = () => scanCard.style.transform = 'scale(1.05)';
-          scanCard.onmouseout = () => scanCard.style.transform = 'scale(1)';
-
-          const thumbnail = scan.has_thumbnail
-            ? `<img src="${scan.thumbnail_url}" style="width: 100%; height: 120px; object-fit: cover;">`
-            : `<div style="width: 100%; height: 120px; background: #333; display: flex; align-items: center; justify-content: center; color: #999;">No thumbnail</div>`;
-
-          scanCard.innerHTML = `
-            ${thumbnail}
-            <div style="padding: 10px;">
-              <div style="font-weight: bold; font-size: 12px; color: #333;">${scan.scan_id}</div>
-              <div style="font-size: 11px; color: #666;">
-                ${scan.packet_count} packets | ${scan.frame_count} frames<br>
-                ${scan.duration}s
-              </div>
-            </div>
-          `;
-
-          scanCard.onclick = () => {
-            loadScanData(scan.host, scan.scan_id);
-          };
-
-          scansList.appendChild(scanCard);
-        });
-
-        document.getElementById('scansGallery').style.display = 'block';
-      } catch (error) {
-        console.error('Failed to load scans gallery:', error);
-      }
-    }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
