@@ -497,12 +497,23 @@ module Streamripper
       # Generate thumbnail if it doesn't exist
       generate_thumbnail(host, scan_id, frames)
 
+      # Build packet timing data for flow chart
+      first_time = data.first['wallclock_time_us']
+      packet_times = data.map do |p|
+        {
+          packet_number: p['packet_number'],
+          time_offset_ms: ((p['wallclock_time_us'] - first_time) / 1000.0).round(2),
+          size: p['raw_packet_size']
+        }
+      end
+
       {
         status: 'success',
         packet_count: data.length,
         frame_count: frames.length,
         duration: duration,
         frames: frames,
+        packet_times: packet_times,
         host: host,
         scan_id: scan_id
       }

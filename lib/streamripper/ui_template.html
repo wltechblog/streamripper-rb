@@ -23,23 +23,6 @@
       margin-bottom: 1.25rem;
     }
 
-    .header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 3rem;
-      text-align: center;
-    }
-
-    .header a {
-      color: white;
-      text-decoration: none;
-      transition: opacity 0.3s;
-    }
-
-    .header a:hover {
-      opacity: 0.8;
-    }
-
     .content {
       padding: 3rem;
     }
@@ -132,9 +115,9 @@
     </style>
   </head>
   <body>
-    <div class="container-lg main-container">
-      <div class="header">
-        <h1><a href="/">🎬 StreamRipper</a></h1>
+    <div class="container-lg main-container pt-5">
+      <div class="text-center">
+        <h1 class="display-3"><a href="/" class="text-decoration-none">🎬 StreamRipper</a></h1>
         <p>Real-time RTSP Stream Analysis & Forensics</p>
       </div>
 
@@ -179,21 +162,17 @@
             <div class="flex-grow-1">
               <h2 class="mb-3 fs-3">Scan Results</h2>
               <div class="row g-3 fs-6">
-                <div class="col-md-6 col-lg-3">
+                <div class="col">
                   <div class="text-white-50 mb-2 small">Stream</div>
                   <div class="fw-bold fs-5" id="scanStream">-</div>
                 </div>
-                <div class="col-md-6 col-lg-3">
+                <div class="col">
                   <div class="text-white-50 mb-2 small">Endpoint</div>
                   <div class="fw-bold fs-5" id="scanEndpoint">-</div>
                 </div>
-                <div class="col-md-6 col-lg-3">
+                <div class="col">
                   <div class="text-white-50 mb-2 small">Scan Time</div>
                   <div class="fw-bold fs-5" id="scanTime">-</div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                  <div class="text-white-50 mb-2 small">Scan ID</div>
-                  <div class="fw-bold fs-5 font-monospace" id="scanId">-</div>
                 </div>
               </div>
             </div>
@@ -253,6 +232,18 @@
                 <div class="card-body">
                   <h5 class="card-title">Packet Sizes (bytes)</h5>
                   <canvas id="packetSizeChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row g-4 mb-5">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Packet Flow Over Time</h5>
+                  <p class="text-muted small mb-3">Shows packet arrival patterns - bursts indicate congestion or frame boundaries</p>
+                  <canvas id="packetFlowChart"></canvas>
                 </div>
               </div>
             </div>
@@ -332,6 +323,7 @@
     let countdownInterval = null;
     let deviationChart = null;
     let packetSizeChart = null;
+    let packetFlowChart = null;
 
     async function startCapture() {
     const rtspUrl = document.getElementById('rtspUrl').value;
@@ -434,7 +426,6 @@
       document.getElementById('scanStream').textContent = ip;
       document.getElementById('scanEndpoint').textContent = endpoint;
       document.getElementById('scanTime').textContent = formattedDate + ' ' + formattedTime;
-      document.getElementById('scanId').textContent = data.scan_id;
 
       // Set thumbnail
       const thumbnailUrl = '/thumbnails/' + encodeURIComponent(data.host) + '/' + encodeURIComponent(data.scan_id) + '/thumbnail.jpg';
@@ -471,6 +462,9 @@
       // Render charts
       renderDeviationChart(data.frames);
       renderPacketSizeChart(data.frames);
+      if (data.packet_times) {
+        renderPacketFlowChart(data.packet_times);
+      }
 
       // Load video if available
       if (data.host && data.scan_id) {
@@ -599,6 +593,75 @@
               title: {
                 display: true,
                 text: 'Size (bytes)'
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function renderPacketFlowChart(packetTimes) {
+      // Destroy existing chart if it exists
+      if (packetFlowChart) {
+        packetFlowChart.destroy();
+        packetFlowChart = null;
+      }
+
+      const ctx = document.getElementById('packetFlowChart').getContext('2d');
+
+      // Group packets into 100ms buckets to show burst patterns
+      const bucketSize = 100; // milliseconds
+      const maxTime = Math.max(...packetTimes.map(p => p.time_offset_ms));
+      const numBuckets = Math.ceil(maxTime / bucketSize);
+
+      const buckets = Array(numBuckets).fill(0);
+      const bucketLabels = [];
+
+      for (let i = 0; i < numBuckets; i++) {
+        bucketLabels.push((i * bucketSize) + '-' + ((i + 1) * bucketSize) + 'ms');
+      }
+
+      // Count packets in each bucket
+      packetTimes.forEach(p => {
+        const bucketIndex = Math.floor(p.time_offset_ms / bucketSize);
+        if (bucketIndex < numBuckets) {
+          buckets[bucketIndex]++;
+        }
+      });
+
+      packetFlowChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: bucketLabels,
+          datasets: [{
+            label: 'Packets per 100ms',
+            data: buckets,
+            backgroundColor: 'rgba(102, 126, 234, 0.6)',
+            borderColor: '#667eea',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: {
+            legend: {
+              display: true,
+              position: 'top'
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Packet Count'
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Time Window'
               }
             }
           }
