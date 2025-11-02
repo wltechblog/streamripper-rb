@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StreamRipper - RTSP Stream Analyzer</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <style>
@@ -109,21 +109,6 @@
     .frame-type.audio { background: #1976d2; }
     .frame-type.unknown { background: #d32f2f; }
 
-    .spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #667eea;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-    margin: 0 auto;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
     .capture-modal {
       display: none;
       position: fixed;
@@ -148,16 +133,6 @@
       text-align: center;
       box-shadow: 0 20px 60px rgba(0,0,0,0.3);
       min-width: 300px;
-    }
-
-    .capture-modal-spinner {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #667eea;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 1.25rem;
     }
 
     .capture-modal-text {
@@ -229,7 +204,9 @@
 
         <div class="capture-modal" id="captureModal">
           <div class="capture-modal-content">
-            <div class="capture-modal-spinner"></div>
+            <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem; margin: 0 auto;">
+              <span class="visually-hidden">Loading...</span>
+            </div>
             <div class="capture-modal-text">Capturing Stream...</div>
             <div class="capture-modal-countdown" id="countdownDisplay">0:00</div>
             <div class="capture-modal-subtext">Please wait while the stream is being captured and analyzed</div>
