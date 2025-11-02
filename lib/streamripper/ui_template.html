@@ -29,11 +29,6 @@
       text-align: center;
     }
 
-    .header h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
-
     .header a {
       color: white;
       text-decoration: none;
@@ -87,23 +82,6 @@
       align-items: center;
       width: 200px;
       justify-content: flex-end;
-    }
-
-    .reparse-btn {
-      background: rgba(255,255,255,0.2);
-      color: white;
-      border: 1px solid rgba(255,255,255,0.5);
-      padding: 10px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background 0.2s;
-      flex-shrink: 0;
-    }
-
-    .reparse-btn:hover {
-      background: rgba(255,255,255,0.3);
-      color: white;
     }
 
     .reparse-status {
@@ -517,7 +495,7 @@
             </div>
             <div class="scan-controls">
               <span id="reparseStatus" class="reparse-status d-none"></span>
-              <button onclick="reparseData()" class="reparse-btn">🔄 Reparse</button>
+              <button onclick="reparseData()" class="btn btn-warning">Reparse</button>
             </div>
           </div>
 
@@ -584,9 +562,9 @@
                 <th>Frame #</th>
                 <th>Packet Range</th>
                 <th>Type</th>
-                <th>Size</th>
-                <th>RTP TS</th>
-                <th>Deviation</th>
+                <th class="text-end">Size</th>
+                <th class="text-end">RTP TS</th>
+                <th class="text-end">Deviation</th>
               </tr>
             </thead>
             <tbody id="framesBody"></tbody>
@@ -765,9 +743,9 @@
 <td>${frame.frame_number}</td>
 <td>${packetRange}</td>
 <td><span class="frame-type ${typeClass}">${frame.frame_type}</span></td>
-<td>${frame.total_size} bytes</td>
-<td>${frame.rtp_timestamp}</td>
-<td>${frame.deviation} µs</td>
+<td class="text-end">${frame.total_size} bytes</td>
+<td class="text-end">${frame.rtp_timestamp}</td>
+<td class="text-end">${frame.deviation} µs</td>
 `;
         row.onclick = () => showHexDump(frame);
         tbody.appendChild(row);
@@ -1082,11 +1060,8 @@
           <div class="card h-100 cursor-pointer" style="cursor: pointer; transition: transform 0.2s;">
             ${thumbnail}
             <div class="card-body">
-              <h6 class="card-title text-truncate">${scan.scan_id}</h6>
-              <p class="card-text small text-muted">
-                ${scan.packet_count} packets | ${scan.frame_count} frames<br>
-                ${scan.duration}s
-              </p>
+              <h6 class="card-title text-truncate">${scan.scan_id} (${scan.duration}s)</h6>
+              <p class="card-text small text-muted">${scan.packet_count} packets | ${scan.frame_count} frames</p>
             </div>
           </div>
         `;
