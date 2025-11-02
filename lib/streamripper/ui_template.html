@@ -176,8 +176,8 @@
     }
 
     @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
 
     .capture-modal {
@@ -236,6 +236,8 @@
       color: #666;
       margin-top: 1rem;
     }
+
+    /* Custom modal styles (kept for capture modal only) */
 
     .hex-dump {
     background: #1e1e1e;
@@ -476,13 +478,13 @@
     </div>
 
     <!-- Hex Modal -->
-    <div id="hexModal" class="modal">
+    <div id="hexModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="hexModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="modalTitle">Frame Hex Dump</h1>
-            <div class="modal-header-buttons">
-              <button class="btn btn-primary" id="downloadFrameBtn" onclick="downloadFrame()" title="Download frame binary">Download</button>
+            <div class="d-flex gap-2 align-items-center">
+              <button class="btn btn-primary btn-sm" id="downloadFrameBtn" onclick="downloadFrame()" title="Download frame binary">⬇️ Download</button>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
           </div>
@@ -494,17 +496,19 @@
     </div>
 
     <!-- Video Modal -->
-    <div id="videoModal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5">Video Playback</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <video id="streamVideo" width="100%" height="auto" controls style="border-radius: 4px; background: #000;">
-            <source id="videoSource" src="" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
+    <div id="videoModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="videoModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="videoModalLabel">Video Playback</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <video id="streamVideo" width="100%" height="auto" controls style="border-radius: 0.25rem; background: #000;">
+              <source id="videoSource" src="" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
         </div>
       </div>
     </div>
