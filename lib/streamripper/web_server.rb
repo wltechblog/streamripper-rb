@@ -6,9 +6,9 @@ require_relative 'packet_analyzer'
 
 module Streamripper
   class WebServer
-    def initialize(port = 8080)
+    def initialize(port = 8080, host = 'localhost')
       @port = port
-      @server = TCPServer.new('localhost', port)
+      @server = TCPServer.new(host, port)
     end
 
     def start

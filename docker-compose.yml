@@ -1,0 +1,12 @@
+services:
+  streamripper:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./logs/streams:/app/logs/streams
+      - ./examples/config.yml:/app/config.yml:ro
+    command: ["./bin/streamripper", "web", "--port", "8080", "--host", "0.0.0.0"]
+    environment:
+      - RUBY_ENV=production
+    restart: unless-stopped
