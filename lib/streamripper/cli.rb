@@ -35,6 +35,8 @@ module Streamripper
     desc 'web [OPTIONS]', 'Start web UI server'
     option :port, aliases: '-p', type: :numeric, default: 8080,
            desc: 'Port to run web server on'
+    option :host, aliases: '-h', default: 'localhost',
+           desc: 'Host address to bind to (default: localhost, use 0.0.0.0 for Docker)'
     option :verbose, aliases: '-v', type: :boolean, default: false,
            desc: 'Enable verbose logging'
 
@@ -46,7 +48,7 @@ module Streamripper
       puts "Web UI Server"
       puts "=" * 60
 
-      server = WebServer.new(options[:port])
+      server = WebServer.new(options[:port], options[:host])
       server.start
     end
 

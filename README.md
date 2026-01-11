@@ -4,6 +4,8 @@ A comprehensive Ruby application to capture, analyze, and extract H.264 video fr
 
 ## Installation
 
+### Local Installation
+
 ```bash
 git clone https://github.com/yourusername/streamripper-rb.git
 cd streamripper-rb
@@ -11,15 +13,49 @@ bundle install
 chmod +x bin/streamripper
 ```
 
+### Docker / Podman
+
+Build and run with Docker:
+
+```bash
+docker-compose up -d
+```
+
+Or with Podman:
+
+```bash
+podman-compose up -d
+```
+
+The web UI will be available at http://localhost:8080
+
+To use a different port, edit `docker-compose.yml` or use:
+```bash
+docker-compose up -d --port "8081:8080"
+```
+
 ## Quick Start
 
 ### Web UI (Recommended)
 
+Local:
 ```bash
 ./bin/streamripper web --port 8080
 ```
 
+Docker/Podman:
+```bash
+docker-compose up -d
+# or
+podman-compose up -d
+```
+
 Then open http://localhost:8080 in your browser.
+
+To bind to all interfaces (useful for Docker/Podman):
+```bash
+./bin/streamripper web --port 8080 --host 0.0.0.0
+```
 
 ### CLI Capture
 
@@ -100,9 +136,13 @@ bundle exec rspec spec/packet_analyzer_spec.rb
 
 ## Requirements
 
+### Local Installation
 - Ruby 2.7+
 - Bundler
 - FFmpeg (for MP4 generation)
+
+### Docker / Podman
+- Docker or Podman (no Ruby required locally)
 
 ## License
 
